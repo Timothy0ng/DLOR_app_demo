@@ -233,6 +233,7 @@ public abstract class Classifier {
     Trace.beginSection("runInference");
     long startTimeForReference = SystemClock.uptimeMillis();
     // TODO: Run TFLite inference
+    tflite.run(inputImageBuffer.getBuffer(), outputProbabilityBuffer.getBuffer().rewind());
 
     long endTimeForReference = SystemClock.uptimeMillis();
     Trace.endSection();
@@ -241,6 +242,9 @@ public abstract class Classifier {
     // Gets the map of label and probability.
     // TODO: Use TensorLabel from TFLite Support Library to associate the probabilities
     //       with category labels
+    Map<String, Float> labeledProbability =
+            new TensorLabel(labels, probabilityProcessor.process(outputProbabilityBuffer))
+                    .getMapWithFloatValue();
 
     Trace.endSection();
 
@@ -277,17 +281,18 @@ public abstract class Classifier {
     // Loads bitmap into a TensorImage.
     inputImageBuffer.load(bitmap);
 
+
     // Creates processor for the TensorImage.
     int cropSize = Math.min(bitmap.getWidth(), bitmap.getHeight());
     int numRoration = sensorOrientation / 90;
     // TODO: Define an ImageProcessor from TFLite Support Library to do preprocessing
     ImageProcessor imageProcessor =
             new ImageProcessor.Builder()
-
-
-
-
-                .build();
+                    .add(new ResizeWithCropOrPadOp(cropSize, cropSize))
+                    .add(new ResizeOp(imageSizeX, imageSizeY, ResizeMethod.NEAREST_NEIGHBOR))
+                    .add(new Rot90Op(numRoration))
+                    .add(getPreprocessNormalizeOp())
+                    .build();
     return imageProcessor.process(inputImageBuffer);
   }
 
