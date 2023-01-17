@@ -1,0 +1,2 @@
+rootProject.name = 'Landmark Recognition'
+include ':app'
