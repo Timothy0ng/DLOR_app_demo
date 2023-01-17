@@ -72,6 +72,7 @@ public abstract class Classifier {
 
   /** An instance of the driver class to run model inference with Tensorflow Lite. */
   // TODO: Declare a TFLite interpreter
+  protected Interpreter tflite;
 
 
   /** Options for configuring the Interpreter. */
@@ -187,6 +188,7 @@ public abstract class Classifier {
     tfliteOptions.setNumThreads(numThreads);
 
     // TODO: Create a TFLite interpreter instance
+    tflite = new Interpreter(tfliteModel, tfliteOptions);
 
 
     // Loads labels out from the label file.
@@ -250,6 +252,8 @@ public abstract class Classifier {
   public void close() {
     if (tflite != null) {
       // TODO: Close the interpreter
+      tflite.close();
+      tflite = null;
 
     }
     // TODO: Close the GPU delegate
