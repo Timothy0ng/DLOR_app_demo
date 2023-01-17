@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/landmark.iml" filepath="$PROJECT_DIR$/.idea/modules/landmark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Landmark_Recognition.iml" filepath="$PROJECT_DIR$/.idea/modules/Landmark_Recognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Landmark_Recognition.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Landmark_Recognition.app.iml" />
     </modules>
   </component>
 </project>
